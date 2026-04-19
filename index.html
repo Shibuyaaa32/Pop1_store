@@ -43,7 +43,7 @@
         .cart-item-info small { color: var(--text-muted); font-size: 13px; display: block; margin-top: 2px;}
         .cart-item-price { text-align: right; }
         .cart-item-price b { color: var(--primary); font-size: 16px; }
-        .btn-remove { background: #fee2e2; color: var(--danger); border: none; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-top: 6px; cursor: pointer;}
+        .btn-remove { background: #fee2e2; color: var(--danger); border: none; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-top: 6px; cursor: pointer; z-index: 10;}
         
         .total-area { background: var(--dark); padding: 16px 20px; border-radius: 16px; text-align: right; color: white; flex-shrink: 0;}
         .total-label { font-size: 14px; color: #94a3b8; margin-bottom: 2px;}
@@ -59,10 +59,13 @@
         .modal-input.active { border-color: var(--primary); background: #fff; }
         .btn-modal { padding: 14px; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; font-size: 15px; flex: 1; }
         .modal-actions { display: flex; gap: 10px; margin-top: 15px;}
-        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .num-btn { background: white; border: 2px solid var(--border); border-radius: 12px; padding: 12px; font-size: 24px; font-weight: 600; color: var(--dark); cursor: pointer; transition: all 0.1s; box-shadow: 0 2px 0 var(--border);}
+        
+        .numpad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
+        .num-btn { background: white; border: 2px solid var(--border); border-radius: 12px; padding: 12px; font-size: 22px; font-weight: 600; color: var(--dark); cursor: pointer; transition: all 0.1s; box-shadow: 0 2px 0 var(--border);}
         .num-btn:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); background: var(--bg);}
         .num-btn.btn-del { background: #fee2e2; color: var(--danger); border-color: #fca5a5; box-shadow: 0 2px 0 #fca5a5; font-size: 20px;}
+        .num-btn.btn-op { color: var(--primary); font-size: 24px; background: var(--primary-light); border-color: #bfdbfe; box-shadow: 0 2px 0 #bfdbfe;}
+        .num-btn.btn-eq { background: var(--success); color: white; border-color: #059669; box-shadow: 0 2px 0 #059669;}
         
         .history-item { background: var(--card); padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid var(--border);}
         .history-item-header { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
@@ -72,35 +75,15 @@
         .summary-total { font-size: 32px; font-weight: 700; color: var(--primary); margin-top: 5px;}
         .weight-summary-box { background: var(--bg); padding: 12px 16px; border-radius: 12px; margin-bottom: 15px; font-size: 14px; border: 1px solid var(--border);}
         
-        /* 📱 ระบบปรับหน้าจออัตโนมัติ สำหรับมือถือ */
-        .mobile-cart-bar { display: none; }
-        .close-cart-btn { display: none; }
-
         @media (max-width: 900px) { 
             body { display: block; overflow-y: auto; } 
             .left-panel { width: 100%; min-height: 100vh; padding: 15px; padding-top: 20px; } 
             .items-grid { padding-bottom: 100px; overflow-y: visible; } 
-            .right-panel { 
-                position: fixed; top: 100vh; left: 0; width: 100%; height: 100dvh; 
-                border-radius: 0; padding: 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
-                transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 200; 
-                padding-bottom: env(safe-area-inset-bottom, 20px);
-            } 
+            .right-panel { position: fixed; top: 100vh; left: 0; width: 100%; height: 100dvh; border-radius: 0; padding: 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.15); transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 200; padding-bottom: env(safe-area-inset-bottom, 20px); } 
             .right-panel.show { top: 0; } 
-            .mobile-cart-bar {
-                display: flex; justify-content: space-between; align-items: center;
-                position: fixed; bottom: 20px; left: 5%; width: 90%; 
-                background: var(--dark); color: white;
-                padding: 14px 24px; border-radius: 100px; 
-                box-shadow: 0 10px 25px rgba(30, 41, 59, 0.4);
-                z-index: 150; cursor: pointer; transition: transform 0.2s;
-            }
+            .mobile-cart-bar { display: flex; justify-content: space-between; align-items: center; position: fixed; bottom: 20px; left: 5%; width: 90%; background: var(--dark); color: white; padding: 14px 24px; border-radius: 100px; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.4); z-index: 150; cursor: pointer; transition: transform 0.2s; }
             .mobile-cart-bar:active { transform: scale(0.97); }
-            .close-cart-btn {
-                display: inline-block; background: #f1f5f9; color: var(--text-main);
-                border: none; padding: 8px 16px; border-radius: 12px; font-weight: 600; font-size: 14px;
-                margin-left: auto; cursor: pointer;
-            }
+            .close-cart-btn { display: inline-block; background: #f1f5f9; color: var(--text-main); border: none; padding: 8px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-left: auto; cursor: pointer; }
         }
         
         #printArea { display: none; }
@@ -130,20 +113,12 @@
         </div>
     </div>
 
-    <div class="mobile-cart-bar" onclick="toggleMobileCart()">
+    <div class="mobile-cart-bar" onclick="toggleMobileCart()" style="display: none;">
         <div style="display: flex; align-items: center; gap: 15px;">
-            <div style="background: rgba(255,255,255,0.15); padding: 8px 12px; border-radius: 50px;">
-                <span style="font-size: 20px;">🛒</span>
-            </div>
-            <div style="display: flex; flex-direction: column;">
-                <span style="font-size: 12px; color: #cbd5e1;">ตะกร้าปัจจุบัน</span>
-                <span style="font-weight: 600; font-size: 15px;" id="mobileCartCount">0 รายการ</span>
-            </div>
+            <div style="background: rgba(255,255,255,0.15); padding: 8px 12px; border-radius: 50px;"><span style="font-size: 20px;">🛒</span></div>
+            <div style="display: flex; flex-direction: column;"><span style="font-size: 12px; color: #cbd5e1;">ตะกร้าปัจจุบัน</span><span style="font-weight: 600; font-size: 15px;" id="mobileCartCount">0 รายการ</span></div>
         </div>
-        <div style="text-align: right;">
-            <span style="font-size: 12px; color: #cbd5e1;">ยอดรวม (฿)</span>
-            <div style="font-weight: 700; font-size: 18px; color: #34d399;" id="mobileCartTotal">0.00</div>
-        </div>
+        <div style="text-align: right;"><span style="font-size: 12px; color: #cbd5e1;">ยอดรวม (฿)</span><div style="font-weight: 700; font-size: 18px; color: #34d399;" id="mobileCartTotal">0.00</div></div>
     </div>
 
     <div class="modal-overlay" id="weightModal">
@@ -153,22 +128,41 @@
                 <span id="displayPriceText" style="color: var(--primary); font-size: 16px; font-weight: 600; background: var(--primary-light); padding: 4px 12px; border-radius: 16px;">0.00 ฿/กก.</span>
                 <button onclick="toggleEditPrice()" style="background: white; border: 2px solid var(--warning); color: var(--warning); padding: 4px 10px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13px;">✏️ แก้ไข</button>
             </div>
+            
             <div id="priceEditBox" style="background: #fffbeb; padding: 16px; border-radius: 12px; border: 2px solid #fde68a; margin-bottom: 15px; display: none;">
                 <label style="display: block; text-align: left; font-size: 14px; color: var(--text-muted); margin-bottom: 6px;">ระบุราคาใหม่ (บาท/หน่วย)</label>
                 <input type="text" id="newPriceInput" class="modal-input" readonly onclick="setActiveInput('newPriceInput')">
                 <button class="btn-modal" style="background: var(--warning); color: white; width: 100%;" onclick="saveNewPrice()">อัปเดตราคา</button>
             </div>
-            <label style="display: block; text-align: left; font-size: 14px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">ระบุน้ำหนัก (กิโลกรัม / ชิ้น / ลัง)</label>
+            
+            <label style="display: block; text-align: left; font-size: 14px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">น้ำหนัก (บวกลบเลข หรือใส่ติดลบได้เลย เช่น -3)</label>
             <input type="text" id="weightInput" class="modal-input active" placeholder="0" readonly onclick="setActiveInput('weightInput')">
+            
             <div class="numpad">
-                <button class="num-btn" onclick="numPress('7')">7</button><button class="num-btn" onclick="numPress('8')">8</button><button class="num-btn" onclick="numPress('9')">9</button>
-                <button class="num-btn" onclick="numPress('4')">4</button><button class="num-btn" onclick="numPress('5')">5</button><button class="num-btn" onclick="numPress('6')">6</button>
-                <button class="num-btn" onclick="numPress('1')">1</button><button class="num-btn" onclick="numPress('2')">2</button><button class="num-btn" onclick="numPress('3')">3</button>
-                <button class="num-btn" onclick="numPress('0')">0</button><button class="num-btn" onclick="numPress('.')">.</button><button class="num-btn btn-del" onclick="numDel()">⌫</button>
+                <button class="num-btn" onclick="numPress('7')">7</button>
+                <button class="num-btn" onclick="numPress('8')">8</button>
+                <button class="num-btn" onclick="numPress('9')">9</button>
+                <button class="num-btn btn-op" onclick="numPress('+')">+</button>
+                
+                <button class="num-btn" onclick="numPress('4')">4</button>
+                <button class="num-btn" onclick="numPress('5')">5</button>
+                <button class="num-btn" onclick="numPress('6')">6</button>
+                <button class="num-btn btn-op" style="color: var(--danger); background: #fee2e2; border-color: #fca5a5; box-shadow: 0 2px 0 #fca5a5;" onclick="numPress('-')">-</button>
+                
+                <button class="num-btn" onclick="numPress('1')">1</button>
+                <button class="num-btn" onclick="numPress('2')">2</button>
+                <button class="num-btn" onclick="numPress('3')">3</button>
+                <button class="num-btn btn-del" onclick="numDel()">⌫</button>
+                
+                <button class="num-btn" style="color: var(--danger); font-weight: bold;" onclick="numClear()">C</button>
+                <button class="num-btn" onclick="numPress('0')">0</button>
+                <button class="num-btn" onclick="numPress('.')">.</button>
+                <button class="num-btn btn-eq" onclick="calcMath()">=</button>
             </div>
+            
             <div class="modal-actions">
                 <button class="btn-modal" style="background: var(--bg); color: var(--text-main);" onclick="closeModal('weightModal')">ยกเลิก</button>
-                <button class="btn-modal" style="background: var(--primary); color: white;" onclick="confirmAddItem()">เพิ่มลงบิล</button>
+                <button class="btn-modal" style="background: var(--primary); color: white;" onclick="confirmAddItem()">บันทึกรายการ</button>
             </div>
         </div>
     </div>
@@ -176,19 +170,17 @@
     <div class="modal-overlay" id="historyModal">
         <div class="modal-content">
             <h2 style="margin-bottom: 15px; text-align: center; color: var(--dark); font-size: 20px;">📜 ประวัติ / สรุปยอด</h2>
-            
             <div style="background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; justify-content: space-between; border: 1px solid var(--border);">
                 <label style="font-size: 14px; font-weight: 600; color: var(--dark); white-space: nowrap;">เลือกวันที่:</label>
                 <input type="date" id="filterDate" onchange="renderHistoryUI()" style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: 'Prompt'; font-size: 14px; cursor: pointer;">
                 <button onclick="document.getElementById('filterDate').value=''; renderHistoryUI()" style="background: var(--primary-light); color: var(--primary); border: none; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">ดูทั้งหมด</button>
             </div>
-            
             <div class="summary-box">
                 <div class="summary-label">ยอดจ่ายรวมที่เลือก (<span id="totalBillsCount">0</span> บิล)</div>
                 <div class="summary-total"><span id="totalDayAmount">0.00</span> ฿</div>
             </div>
             <div class="weight-summary-box">
-                <strong style="display:block; margin-bottom: 10px; color: var(--dark); font-size: 15px; text-align: center;">📊 สรุปน้ำหนักรับซื้อ (กิโลกรัม)</strong>
+                <strong style="display:block; margin-bottom: 10px; color: var(--dark); font-size: 15px; text-align: center;">📊 สรุปน้ำหนักรับซื้อสุทธิ (กิโลกรัม)</strong>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px; color: var(--text-main);"><span>- ล.หนา:</span><strong id="sumLonNa">0.0</strong></div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px; color: var(--text-main);"><span>- ล.ธรรมดา:</span><strong id="sumLonTham">0.0</strong></div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--text-main);"><span>- ล.บาง:</span><strong id="sumLonBang">0.0</strong></div>
@@ -212,29 +204,10 @@
     <div id="printArea"></div>
 
     <script>
-        // ----------------------------------------------------
-        // ส่วนคอนฟิกและเชื่อมต่อ Firebase
-        // ----------------------------------------------------
-        const firebaseConfig = {
-            apiKey: "AIzaSyCvHYlLcJ46PoIY1l03_jgn6DpqXwgySok",
-            authDomain: "pop1-82984.firebaseapp.com",
-            databaseURL: "https://pop1-82984-default-rtdb.firebaseio.com",
-            projectId: "pop1-82984",
-            storageBucket: "pop1-82984.firebasestorage.app",
-            messagingSenderId: "1038672397667",
-            appId: "1:1038672397667:web:b6ac5d43d2604e781c7f56",
-            measurementId: "G-5S8J54DRXT"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-        const db = firebase.database();
-
+        const firebaseConfig = { apiKey: "AIzaSyCvHYlLcJ46PoIY1l03_jgn6DpqXwgySok", authDomain: "pop1-82984.firebaseapp.com", databaseURL: "https://pop1-82984-default-rtdb.firebaseio.com", projectId: "pop1-82984", storageBucket: "pop1-82984.firebasestorage.app", messagingSenderId: "1038672397667", appId: "1:1038672397667:web:b6ac5d43d2604e781c7f56", measurementId: "G-5S8J54DRXT" };
+        firebase.initializeApp(firebaseConfig); firebase.analytics(); const db = firebase.database();
         let globalBills = [];
 
-        // ----------------------------------------------------
-        // ข้อมูลสินค้า (คงเดิมตามไฟล์ของคุณ)
-        // ----------------------------------------------------
         let products = [
             { id: 1, name: "ล.หนา", category: "เหล็ก", price: 10.7, img: "https://static.wixstatic.com/media/fbf885_9b870aa5844d4cb09d3d5582a1d52918~mv2.jpg/v1/fit/w_464,h_797,q_90,enc_avif,quality_auto/fbf885_9b870aa5844d4cb09d3d5582a1d52918~mv2.jpg" },
             { id: 2, name: "ล.ธรรมดา", category: "เหล็ก", price: 10.3, img: "https://static.wixstatic.com/media/fbf885_a1368c183d92470dbe7a575fa82d0350~mv2.jpg/v1/fit/w_464,h_797,q_90,enc_avif,quality_auto/fbf885_a1368c183d92470dbe7a575fa82d0350~mv2.jpg" },
@@ -318,30 +291,16 @@
         function setupFirebaseListeners() {
             db.ref('pos_custom_prices').on('value', (snapshot) => {
                 const savedPrices = snapshot.val() || {};
-                products.forEach(p => { 
-                    if (savedPrices[p.id] !== undefined) p.price = savedPrices[p.id]; 
-                });
-                const activeCatBtn = document.querySelector('.cat-btn.active'); 
-                if(activeCatBtn) renderItems(activeCatBtn.innerText);
+                products.forEach(p => { if (savedPrices[p.id] !== undefined) p.price = savedPrices[p.id]; });
+                const activeCatBtn = document.querySelector('.cat-btn.active'); if(activeCatBtn) renderItems(activeCatBtn.innerText);
             });
-
             db.ref('pos_bills').on('value', (snapshot) => {
-                globalBills = [];
-                snapshot.forEach(child => {
-                    globalBills.push({ key: child.key, ...child.val() });
-                });
-                
-                if(document.getElementById('historyModal').style.display === 'flex') {
-                    renderHistoryUI();
-                }
+                globalBills = []; snapshot.forEach(child => { globalBills.push({ key: child.key, ...child.val() }); });
+                if(document.getElementById('historyModal').style.display === 'flex') { renderHistoryUI(); }
             });
         }
         
-        function init() { 
-            setupFirebaseListeners(); 
-            renderCategories(); 
-            renderItems('ทั้งหมด'); 
-        }
+        function init() { setupFirebaseListeners(); renderCategories(); renderItems('ทั้งหมด'); }
 
         function renderCategories() {
             const container = document.getElementById('categoryList');
@@ -375,12 +334,58 @@
         }
 
         function setActiveInput(id) { activeInputId = id; document.querySelectorAll('.modal-input').forEach(el => el.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-        function numPress(val) { const input = document.getElementById(activeInputId); if (val === '.' && input.value.includes('.')) return; if (input.value === '0' && val !== '.') input.value = val; else input.value += val; }
-        function numDel() { const input = document.getElementById(activeInputId); input.value = input.value.slice(0, -1); }
         
+        function evaluateExpression(expr) {
+            if (!expr) return 0;
+            expr = expr.replace(/[+\-.]+$/, '');
+            if (expr === '') return 0;
+            try {
+                if (/^[0-9+\-.]+$/.test(expr)) {
+                    return Math.round(new Function('return ' + expr)() * 100) / 100;
+                }
+            } catch(e) {}
+            return 0;
+        }
+
+        function numPress(val) { 
+            const input = document.getElementById(activeInputId); 
+            let current = input.value;
+            
+            if (current === '0' && val === '-') { input.value = '-'; return; }
+            if (current === '' && val === '-') { input.value = '-'; return; }
+
+            const lastChar = current.slice(-1);
+            if (['+', '-', '.'].includes(val) && ['+', '-', '.'].includes(lastChar)) {
+                input.value = current.slice(0, -1) + val;
+                return;
+            }
+
+            if (current === '0' && !['.', '+', '-'].includes(val)) {
+                input.value = val; 
+            } else {
+                input.value += val; 
+            }
+        }
+        
+        function numDel() { const input = document.getElementById(activeInputId); input.value = input.value.slice(0, -1); }
+        function numClear() { document.getElementById(activeInputId).value = ''; }
+        function calcMath() {
+            const input = document.getElementById(activeInputId);
+            if(activeInputId === 'weightInput') {
+                const result = evaluateExpression(input.value);
+                if(result !== 0 || input.value === '0') input.value = result;
+            }
+        }
+
         function openModal(id) {
-            currentItem = products.find(p => p.id === id); document.getElementById('modalItemName').innerText = currentItem.name; document.getElementById('priceEditBox').style.display = 'none';
-            updatePriceDisplay(); document.getElementById('weightInput').value = ''; document.getElementById('weightModal').style.display = 'flex'; setActiveInput('weightInput');
+            currentItem = products.find(p => p.id === id); 
+            document.getElementById('modalItemName').innerText = currentItem.name; 
+            document.getElementById('priceEditBox').style.display = 'none';
+            updatePriceDisplay(); 
+            
+            document.getElementById('weightInput').value = ''; 
+            document.getElementById('weightModal').style.display = 'flex'; 
+            setActiveInput('weightInput');
         }
 
         function updatePriceDisplay() { document.getElementById('displayPriceText').innerText = `${currentItem.price.toFixed(2)} ฿/หน่วย`; document.getElementById('newPriceInput').value = currentItem.price; }
@@ -388,31 +393,75 @@
         
         function saveNewPrice() {
             const newPrice = parseFloat(document.getElementById('newPriceInput').value);
-            if (newPrice >= 0) {
-                currentItem.price = newPrice; 
-                updatePriceDisplay(); 
-                toggleEditPrice(); 
-                db.ref('pos_custom_prices/' + currentItem.id).set(newPrice);
-            }
+            if (newPrice >= 0) { currentItem.price = newPrice; updatePriceDisplay(); toggleEditPrice(); db.ref('pos_custom_prices/' + currentItem.id).set(newPrice); }
         }
 
         function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
         
         function confirmAddItem() { 
-            const weight = parseFloat(document.getElementById('weightInput').value); 
-            if (!weight || weight <= 0) return alert('กรุณาระบุน้ำหนักให้ถูกต้อง'); 
-            cart.push({ id: Date.now(), name: currentItem.name, category: currentItem.category, price: currentItem.price, weight: weight, total: currentItem.price * weight }); 
+            let weightExpr = document.getElementById('weightInput').value.trim();
+            let weight = evaluateExpression(weightExpr);
+            
+            if (weight === 0) return alert('กรุณาระบุน้ำหนักให้ถูกต้อง'); 
+
+            // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือยัง (และราคาต้องเท่ากัน)
+            let existingItemIndex = cart.findIndex(i => i.productId === currentItem.id && i.price === currentItem.price);
+
+            if (existingItemIndex !== -1) {
+                // ถ้ามีแล้ว ให้อัปเดตและต่อสตริงให้ยาวขึ้น (เช่น "5" -> "5+3")
+                let existingItem = cart[existingItemIndex];
+                
+                let newExprPart = weightExpr;
+                // ถ้าค่าใหม่ไม่ได้ขึ้นต้นด้วยเครื่องหมาย + หรือ - ให้ใส่ + นำหน้าเวลาไปต่อท้าย
+                if (!newExprPart.startsWith('+') && !newExprPart.startsWith('-')) {
+                    newExprPart = '+' + newExprPart;
+                }
+                
+                existingItem.weightString = existingItem.weightString + newExprPart;
+                existingItem.weight += weight;
+                existingItem.total = existingItem.price * existingItem.weight;
+                
+            } else {
+                // ถ้ายังไม่มี ให้สร้างใหม่
+                cart.push({ 
+                    id: Date.now() + Math.random(), 
+                    productId: currentItem.id,
+                    name: currentItem.name, 
+                    category: currentItem.category, 
+                    price: currentItem.price, 
+                    weight: weight, 
+                    weightString: weightExpr, // เก็บสตริงตั้งต้น
+                    total: currentItem.price * weight 
+                }); 
+            }
+            
             closeModal('weightModal'); 
             updateCartUI(); 
         }
 
-        function toggleMobileCart() {
-            document.getElementById('rightPanel').classList.toggle('show');
-        }
+        function toggleMobileCart() { document.getElementById('rightPanel').classList.toggle('show'); }
 
         function updateCartUI() {
             const list = document.getElementById('cartList'); let total = 0;
-            list.innerHTML = cart.map(item => { total += item.total; return `<div class="cart-item"><div class="cart-item-info"><b>${item.name}</b><small>${item.weight} x ${item.price} ฿</small></div><div class="cart-item-price"><b>${item.total.toLocaleString(undefined, {minimumFractionDigits:2})} ฿</b><br><button class="btn-remove" onclick="removeCart(${item.id})">ลบ</button></div></div>`; }).join('');
+            
+            list.innerHTML = cart.map(item => { 
+                total += item.total; 
+                let priceColor = item.total < 0 ? 'color: var(--danger);' : 'color: var(--primary);';
+                
+                // ถ้าน้ำหนักบวกลบกันแล้วเหลือ 0 พอดี ให้เตือนสีแดงนิดหน่อย
+                let weightDisplayColor = item.weight === 0 ? 'color: var(--danger);' : 'color: var(--text-muted);';
+
+                return `<div class="cart-item">
+                    <div class="cart-item-info">
+                        <b>${item.name}</b>
+                        <small style="${weightDisplayColor}">${item.weightString} = ${item.weight} กก. x ${item.price} ฿</small>
+                    </div>
+                    <div class="cart-item-price">
+                        <b style="${priceColor}">${item.total.toLocaleString(undefined, {minimumFractionDigits:2})} ฿</b><br>
+                        <button class="btn-remove" onclick="removeCart('${item.id}')">ลบ</button>
+                    </div>
+                </div>`; 
+            }).join('');
             
             const formattedTotal = total.toLocaleString(undefined, {minimumFractionDigits:2});
             document.getElementById('grandTotal').innerText = formattedTotal;
@@ -420,15 +469,25 @@
             const mobileCountStr = cart.length > 0 ? `${cart.length} รายการ` : '0 รายการ';
             document.getElementById('mobileCartCount').innerText = mobileCountStr;
             document.getElementById('mobileCartTotal').innerText = formattedTotal;
+            document.querySelector('.mobile-cart-bar').style.display = cart.length > 0 ? 'flex' : 'none';
         }
 
-        function removeCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
+        function removeCart(cartId) { 
+            cart = cart.filter(i => i.id != cartId); 
+            updateCartUI(); 
+        }
 
         function renderReceiptHTML(billNo, date, items, totalAmount) {
-            const groupedItems = {};
-            items.forEach(item => { const key = item.name + '_' + item.price; if (!groupedItems[key]) { groupedItems[key] = { name: item.name, price: item.price, weights: [item.weight], total: item.total }; } else { groupedItems[key].weights.push(item.weight); groupedItems[key].total += item.total; } });
-            const groupedItemsArray = Object.values(groupedItems);
-            return `<div class="slip-header"><h3 style="margin-bottom: 5px; font-size: 18px;">ร้านPOPค้าของเก่า</h3><p style="font-size: 12px; margin-bottom: 2px;">55/1/1หมู่ 17 ตำบลคลองนครเนื่องเขต</p><p style="font-size: 12px; margin-bottom: 2px;">อำเภอเมือง จังหวัดฉะเชิงเทรา 24000</p><p style="font-size: 12px; margin-bottom: 8px;">เบอร์ติดต่อ: 0897005720</p><p style="font-weight: bold; font-size: 14px;">ใบเสร็จรับเงิน</p><p>วันที่: ${date}</p><p>เลขที่บิล: ${billNo}</p></div><hr class="slip-divider"><table class="slip-table"><thead><tr><th>รายการ</th><th class="text-right">รวม(฿)</th></tr></thead><tbody>${groupedItemsArray.map(item => { const weightDisplay = item.weights.length > 1 ? `(${item.weights.join('+')})` : item.weights[0]; return `<tr><td>${item.name}<br><span style="color:#555">${weightDisplay} x ${item.price}</span></td><td class="text-right" style="vertical-align: top;">${item.total.toLocaleString(undefined, {minimumFractionDigits: 2})}</td></tr>` }).join('')}</tbody></table><hr class="slip-divider"><div class="slip-total">ยอดสุทธิ: ${totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท</div><div style="text-align: center; margin-top: 20px; font-size: 12px;">ขอบคุณที่ใช้บริการครับ</div>`;
+            // โชว์สมการน้ำหนักบนสลิป เช่น 5+5-1 = 9 กก. x 10.7
+            return `<div class="slip-header"><h3 style="margin-bottom: 5px; font-size: 18px;">ร้านPOPค้าของเก่า</h3><p style="font-size: 12px; margin-bottom: 2px;">55/1/1หมู่ 17 ตำบลคลองนครเนื่องเขต</p><p style="font-size: 12px; margin-bottom: 2px;">อำเภอเมือง จังหวัดฉะเชิงเทรา 24000</p><p style="font-size: 12px; margin-bottom: 8px;">เบอร์ติดต่อ: 0897005720</p><p style="font-weight: bold; font-size: 14px;">ใบเสร็จรับเงิน</p><p>วันที่: ${date}</p><p>เลขที่บิล: ${billNo}</p></div>
+            <hr class="slip-divider">
+            <table class="slip-table">
+                <thead><tr><th>รายการ</th><th class="text-right">รวม(฿)</th></tr></thead>
+                <tbody>${items.map(item => `<tr><td>${item.name}<br><span style="color:#555">${item.weightString}=${item.weight} กก. x ${item.price}</span></td><td class="text-right" style="vertical-align: top;">${item.total.toLocaleString(undefined, {minimumFractionDigits: 2})}</td></tr>`).join('')}</tbody>
+            </table>
+            <hr class="slip-divider">
+            <div class="slip-total">ยอดสุทธิ: ${totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท</div>
+            <div style="text-align: center; margin-top: 20px; font-size: 12px;">ขอบคุณที่ใช้บริการครับ</div>`;
         }
 
         function processCheckout(shouldPrint) {
@@ -438,7 +497,6 @@
             const totalAmount = cart.reduce((sum, item) => sum + item.total, 0); 
             const billNo = "B" + Date.now().toString().slice(-6); 
             
-            // สร้างวันที่แบบอิงตามระบบ สำหรับเซฟลงฐานข้อมูลเพื่อให้ค้นหาง่ายขึ้น
             const d = new Date();
             const yyyy = d.getFullYear();
             const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -447,7 +505,6 @@
             
             const currentDate = d.toLocaleString('th-TH');
             
-            // บันทึกตัวแปร dateOnly เพิ่มเข้าไป
             const newBill = { billNo, date: currentDate, dateOnly: dateOnly, items: [...cart], total: totalAmount };
             db.ref('pos_bills').push(newBill);
 
@@ -460,9 +517,6 @@
             document.getElementById('rightPanel').classList.remove('show');
         }
 
-        // ----------------------------------------------------
-        // ฟังก์ชันใหม่: กรองบิลตามวันที่เลือก
-        // ----------------------------------------------------
         function getFilteredBills() {
             const filterDate = document.getElementById('filterDate') ? document.getElementById('filterDate').value : '';
             if (!filterDate) return globalBills; 
@@ -471,7 +525,6 @@
                 if (b.dateOnly) {
                     return b.dateOnly === filterDate;
                 } else {
-                    // สำหรับบิลเก่าที่บันทึกก่อนอัปเดตโค้ดนี้ (ค้นหาจากข้อความ String)
                     const [fy, fm, fd] = filterDate.split('-');
                     const searchAD = `${parseInt(fd)}/${parseInt(fm)}/${fy}`;
                     const searchBE = `${parseInt(fd)}/${parseInt(fm)}/${parseInt(fy)+543}`;
@@ -480,7 +533,6 @@
             });
         }
 
-        // ฟังก์ชันสำหรับปริ้นบิลเก่าย้อนหลัง
         function printOldBill(key) {
             const bill = globalBills.find(b => b.key === key);
             if(bill) {
@@ -491,7 +543,7 @@
 
         function renderHistoryUI() {
             const historyList = document.getElementById('historyList'); 
-            const currentBills = getFilteredBills(); // ดึงเฉพาะบิลของวันที่เลือก
+            const currentBills = getFilteredBills(); 
             
             let totalDayAmount = 0; let sumNa = 0, sumTham = 0, sumBang = 0, sumCopper = 0, sumBrass = 0, sumStainless = 0;
             
@@ -519,7 +571,9 @@
                                 <button onclick="deleteBill('${bill.key}', '${bill.billNo}')" style="background: #fee2e2; color: var(--danger); border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;">🗑️ ลบ</button>
                             </div>
                         </div>
-                        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">${bill.items.map(i => `${i.name}(${i.weight})`).join(', ')}</div>
+                        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">${bill.items.map(i => {
+                            return `${i.name}[${i.weightString}=${i.weight}]`;
+                        }).join(', ')}</div>
                         <div class="history-item-total">${bill.total.toLocaleString(undefined, {minimumFractionDigits:2})} ฿</div>
                     </div>`).join('');
             }
@@ -535,7 +589,6 @@
         }
 
         function openHistory() {
-            // ตั้งค่าเริ่มต้นของช่องเลือกวันให้เป็นวันนี้ (ถ้ายังไม่ได้เลือก)
             const dateInput = document.getElementById('filterDate');
             if(!dateInput.value) {
                 const d = new Date();
@@ -567,7 +620,7 @@
             
             currentBills.forEach(bill => { bill.items.forEach(item => { if (item.name === "ล.หนา") sumNa += item.weight; if (item.name === "ล.ธรรมดา") sumTham += item.weight; if (item.name === "ล.บาง") sumBang += item.weight; if (item.category === "ทองแดง") sumCopper += item.weight; if (item.category === "ทองเหลือง") sumBrass += item.weight; if (item.category === "เลส") sumStainless += item.weight; }); });
             
-            document.getElementById('printArea').innerHTML = `<div class="slip-header"><h3>สรุปยอด (Z-Report)</h3><p>${printTitleDate}</p><p>เวลาพิมพ์: ${currentDate}</p></div><hr class="slip-divider"><table class="slip-table" style="font-size: 14px;"><tr><td style="padding: 10px 0;">จำนวนบิลรับซื้อ:</td><td class="text-right" style="font-weight:bold;">${currentBills.length} บิล</td></tr><tr><td style="padding: 10px 0;">ยอดจ่ายรวมทั้งสิ้น:</td><td class="text-right" style="font-weight:bold; font-size: 16px;">${totalDayAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} ฿</td></tr></table><hr class="slip-divider"><div style="font-weight: bold; margin-bottom: 5px; font-size: 14px;">📊 สรุปน้ำหนักรับซื้อ (กก.)</div><table class="slip-table" style="font-size: 13px;"><tr><td style="padding: 4px 0;">- ล.หนา</td><td class="text-right" style="font-weight:bold;">${sumNa.toFixed(1)}</td></tr><tr><td style="padding: 4px 0;">- ล.ธรรมดา</td><td class="text-right" style="font-weight:bold;">${sumTham.toFixed(1)}</td></tr><tr><td style="padding: 4px 0; border-bottom: 1px dashed #ccc; padding-bottom: 8px;">- ล.บาง</td><td class="text-right" style="font-weight:bold; border-bottom: 1px dashed #ccc; padding-bottom: 8px;">${sumBang.toFixed(1)}</td></tr><tr><td style="padding: 8px 0 4px 0;">🔥 ทองแดงรวม</td><td class="text-right" style="font-weight:bold; padding-top: 8px;">${sumCopper.toFixed(1)}</td></tr><tr><td style="padding: 4px 0;">✨ ทองเหลืองรวม</td><td class="text-right" style="font-weight:bold;">${sumBrass.toFixed(1)}</td></tr><tr><td style="padding: 4px 0;">⚙️ เลสรวม</td><td class="text-right" style="font-weight:bold;">${sumStainless.toFixed(1)}</td></tr></table><hr class="slip-divider"><div style="text-align: center; margin-top: 40px; font-size: 12px;">ผู้ตรวจนับเงิน........................................</div>`;
+            document.getElementById('printArea').innerHTML = `<div class="slip-header"><h3>สรุปยอด (Z-Report)</h3><p>${printTitleDate}</p><p>เวลาพิมพ์: ${currentDate}</p></div><hr class="slip-divider"><table class="slip-table" style="font-size: 14px;"><tr><td style="padding: 10px 0;">จำนวนบิลรับซื้อ:</td><td class="text-right" style="font-weight:bold;">${currentBills.length} บิล</td></tr><tr><td style="padding: 10px 0;">ยอดจ่ายรวมทั้งสิ้น:</td><td class="text-right" style="font-weight:bold; font-size: 16px;">${totalDayAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} ฿</td></tr></table><hr class="slip-divider"><div style="font-weight: bold; margin-bottom: 5px; font-size: 14px;">📊 สรุปน้ำหนักรับซื้อสุทธิ (กก.)</div><table class="slip-table" style="font-size: 13px;"><tr><td style="padding: 4px 0;">- ล.หนา</td><td class="text-right" style="font-weight:bold;">${sumNa.toFixed(1)}</td></tr><tr><td style="padding: 4px 0;">- ล.ธรรมดา</td><td class="text-right" style="font-weight:bold;">${sumTham.toFixed(1)}</td></tr><tr><td style="padding: 4px 0; border-bottom: 1px dashed #ccc; padding-bottom: 8px;">- ล.บาง</td><td class="text-right" style="font-weight:bold; border-bottom: 1px dashed #ccc; padding-bottom: 8px;">${sumBang.toFixed(1)}</td></tr><tr><td style="padding: 8px 0 4px 0;">🔥 ทองแดงรวม</td><td class="text-right" style="font-weight:bold; padding-top: 8px;">${sumCopper.toFixed(1)}</td></tr><tr><td style="padding: 4px 0;">✨ ทองเหลืองรวม</td><td class="text-right" style="font-weight:bold;">${sumBrass.toFixed(1)}</td></tr><tr><td style="padding: 4px 0;">⚙️ เลสรวม</td><td class="text-right" style="font-weight:bold;">${sumStainless.toFixed(1)}</td></tr></table><hr class="slip-divider"><div style="text-align: center; margin-top: 40px; font-size: 12px;">ผู้ตรวจนับเงิน........................................</div>`;
             window.print();
         }
 
@@ -575,14 +628,13 @@
             const currentBills = getFilteredBills();
             if (currentBills.length === 0) return alert('ไม่มีรายการให้ส่งออกครับ');
             
-            let csvContent = "เลขที่บิล,วันที่-เวลา,หมวดหมู่,รายการสินค้า,ราคา/หน่วย,น้ำหนัก,รวมเงิน(รายการ),ยอดรวมสุทธิทั้งบิล(บาท)\n";
-            currentBills.forEach(bill => { let isFirstItem = true; bill.items.forEach(item => { let row = [ bill.billNo, `"${bill.date}"`, item.category, item.name, item.price, item.weight, item.total, isFirstItem ? bill.total : "" ]; csvContent += row.join(",") + "\n"; isFirstItem = false; }); });
+            let csvContent = "เลขที่บิล,วันที่-เวลา,หมวดหมู่,รายการสินค้า,ราคา/หน่วย,สมการน้ำหนัก,น้ำหนักสุทธิ,รวมเงิน(รายการ),ยอดรวมสุทธิทั้งบิล(บาท)\n";
+            currentBills.forEach(bill => { let isFirstItem = true; bill.items.forEach(item => { let row = [ bill.billNo, `"${bill.date}"`, item.category, item.name, item.price, `"${item.weightString}"`, item.weight, item.total, isFirstItem ? bill.total : "" ]; csvContent += row.join(",") + "\n"; isFirstItem = false; }); });
             const BOM = "\uFEFF"; const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); const url = URL.createObjectURL(blob);
             const today = new Date(); const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
             link.setAttribute("href", url); link.setAttribute("download", `รายงานรับซื้อ_${dateStr}.csv`); link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
-        // ปรับปรุงฟังก์ชันเคลียร์ข้อมูล: ให้ลบเฉพาะวันที่กรองอยู่เท่านั้น ป้องกันการลบทิ้งทั้งหมด
         function clearHistory() { 
             const filterDate = document.getElementById('filterDate') ? document.getElementById('filterDate').value : '';
             const msg = filterDate ? `คุณต้องการล้างประวัติบิลของวันที่เลือก (${filterDate}) ใช่หรือไม่?\n(ข้อมูลจะถูกลบถาวร)` : `⚠️ คำเตือน: คุณกำลังเลือกล้างประวัติบิล **ทั้งหมดทุกวัน** ใช่หรือไม่?\n(ข้อมูลจะหายไปทั้งหมด!)`;
