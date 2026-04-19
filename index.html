@@ -6,9 +6,117 @@
     <title>(ร้านPOPค้าของเก่า)</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js">
+        function openCustomModal() {
+            document.getElementById('customName').value = '';
+            document.getElementById('customPrice').value = '';
+            document.getElementById('customWeight').value = '';
+            setActiveInput('customPrice'); 
+            document.getElementById('customModal').style.display = 'flex';
+        }
+
+        function confirmAddCustom() {
+            let name = document.getElementById('customName').value.trim();
+            if (!name) name = 'รายการอื่นๆ';
+
+            let priceExpr = document.getElementById('customPrice').value.trim();
+            let price = evaluateExpression(priceExpr);
+            if (price <= 0) return alert('กรุณาระบุราคาให้ถูกต้อง (มากกว่า 0)');
+
+            let weightExpr = document.getElementById('customWeight').value.trim();
+            let weight = evaluateExpression(weightExpr);
+            if (weight === 0) return alert('กรุณาระบุจำนวนหรือน้ำหนักให้ถูกต้อง');
+
+            cart.push({
+                id: Date.now() + Math.random(),
+                productId: 'custom-' + Date.now(),
+                name: name,
+                category: "อื่นๆ",
+                price: price,
+                weight: weight,
+                weightString: weightExpr,
+                total: price * weight
+            });
+
+            closeModal('customModal');
+            updateCartUI();
+        }
+
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js">
+        function openCustomModal() {
+            document.getElementById('customName').value = '';
+            document.getElementById('customPrice').value = '';
+            document.getElementById('customWeight').value = '';
+            setActiveInput('customPrice'); 
+            document.getElementById('customModal').style.display = 'flex';
+        }
+
+        function confirmAddCustom() {
+            let name = document.getElementById('customName').value.trim();
+            if (!name) name = 'รายการอื่นๆ';
+
+            let priceExpr = document.getElementById('customPrice').value.trim();
+            let price = evaluateExpression(priceExpr);
+            if (price <= 0) return alert('กรุณาระบุราคาให้ถูกต้อง (มากกว่า 0)');
+
+            let weightExpr = document.getElementById('customWeight').value.trim();
+            let weight = evaluateExpression(weightExpr);
+            if (weight === 0) return alert('กรุณาระบุจำนวนหรือน้ำหนักให้ถูกต้อง');
+
+            cart.push({
+                id: Date.now() + Math.random(),
+                productId: 'custom-' + Date.now(),
+                name: name,
+                category: "อื่นๆ",
+                price: price,
+                weight: weight,
+                weightString: weightExpr,
+                total: price * weight
+            });
+
+            closeModal('customModal');
+            updateCartUI();
+        }
+
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js">
+        function openCustomModal() {
+            document.getElementById('customName').value = '';
+            document.getElementById('customPrice').value = '';
+            document.getElementById('customWeight').value = '';
+            setActiveInput('customPrice'); 
+            document.getElementById('customModal').style.display = 'flex';
+        }
+
+        function confirmAddCustom() {
+            let name = document.getElementById('customName').value.trim();
+            if (!name) name = 'รายการอื่นๆ';
+
+            let priceExpr = document.getElementById('customPrice').value.trim();
+            let price = evaluateExpression(priceExpr);
+            if (price <= 0) return alert('กรุณาระบุราคาให้ถูกต้อง (มากกว่า 0)');
+
+            let weightExpr = document.getElementById('customWeight').value.trim();
+            let weight = evaluateExpression(weightExpr);
+            if (weight === 0) return alert('กรุณาระบุจำนวนหรือน้ำหนักให้ถูกต้อง');
+
+            cart.push({
+                id: Date.now() + Math.random(),
+                productId: 'custom-' + Date.now(),
+                name: name,
+                category: "อื่นๆ",
+                price: price,
+                weight: weight,
+                weightString: weightExpr,
+                total: price * weight
+            });
+
+            closeModal('customModal');
+            updateCartUI();
+        }
+
+    </script>
 
     <style>
         :root { --primary: #2563eb; --primary-light: #eff6ff; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --dark: #1e293b; --bg: #f1f5f9; --card: #ffffff; --border: #e2e8f0; --text-main: #334155; --text-muted: #64748b; }
@@ -105,7 +213,10 @@
     <div class="right-panel" id="rightPanel">
         <div class="cart-header">
             <h2 style="margin: 0;">🧾 รายการปัจจุบัน <button class="close-cart-btn" onclick="toggleMobileCart()">✖ ปิดหน้าต่าง</button></h2>
-            <button class="btn-history" onclick="openHistory()" style="margin-left: 10px;">📜 ประวัติ</button>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn-history" onclick="openCustomModal()" style="background: var(--warning); color: white;">➕ อื่นๆ</button>
+                <button class="btn-history" onclick="openHistory()">📜 ประวัติ</button>
+            </div>
         </div>
         <div class="cart-list" id="cartList"></div>
         <div class="total-area">
@@ -172,7 +283,55 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="historyModal">
+    
+    <!-- Modal สำหรับรายการอื่นๆ กำหนดชื่อและราคาเอง -->
+    <div class="modal-overlay" id="customModal">
+        <div class="modal-content" style="text-align: center;">
+            <h2 style="margin-bottom: 15px; color: var(--dark); font-size: 22px;">➕ เพิ่มรายการอื่นๆ</h2>
+            
+            <label style="display: block; text-align: left; font-size: 14px; color: var(--text-muted); margin-bottom: 6px;">ชื่อรายการ</label>
+            <input type="text" id="customName" placeholder="เช่น เหล็กพิเศษ, หักค่าบริการ..." style="width: 100%; padding: 12px; font-size: 18px; border: 2px solid var(--border); border-radius: 12px; margin-bottom: 15px; color: var(--dark); font-weight: 600; background: #f8fafc; outline: none; font-family: 'Prompt';" onfocus="activeInputId = null; document.querySelectorAll('.modal-input').forEach(el => el.classList.remove('active')); this.style.borderColor = 'var(--primary)'; this.style.background = '#fff';" onblur="this.style.borderColor = 'var(--border)'; this.style.background = '#f8fafc';">
+            
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display: block; text-align: left; font-size: 14px; color: var(--text-muted); margin-bottom: 6px;">ราคา (บาท/หน่วย)</label>
+                    <input type="text" id="customPrice" class="modal-input active" placeholder="0" readonly onclick="setActiveInput('customPrice')">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display: block; text-align: left; font-size: 14px; color: var(--text-muted); margin-bottom: 6px;">จำนวน / น้ำหนัก</label>
+                    <input type="text" id="customWeight" class="modal-input" placeholder="0" readonly onclick="setActiveInput('customWeight')">
+                </div>
+            </div>
+            
+            <div class="numpad">
+                <button class="num-btn" onclick="numPress('7')">7</button>
+                <button class="num-btn" onclick="numPress('8')">8</button>
+                <button class="num-btn" onclick="numPress('9')">9</button>
+                <button class="num-btn btn-op" onclick="numPress('+')">+</button>
+                
+                <button class="num-btn" onclick="numPress('4')">4</button>
+                <button class="num-btn" onclick="numPress('5')">5</button>
+                <button class="num-btn" onclick="numPress('6')">6</button>
+                <button class="num-btn btn-op" style="color: var(--danger); background: #fee2e2; border-color: #fca5a5; box-shadow: 0 2px 0 #fca5a5;" onclick="numPress('-')">-</button>
+                
+                <button class="num-btn" onclick="numPress('1')">1</button>
+                <button class="num-btn" onclick="numPress('2')">2</button>
+                <button class="num-btn" onclick="numPress('3')">3</button>
+                <button class="num-btn btn-del" onclick="numDel()">⌫</button>
+                
+                <button class="num-btn" style="color: var(--danger); font-weight: bold;" onclick="numClear()">C</button>
+                <button class="num-btn" onclick="numPress('0')">0</button>
+                <button class="num-btn" onclick="numPress('.')">.</button>
+                <button class="num-btn btn-eq" onclick="calcMath()">=</button>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn-modal" style="background: var(--bg); color: var(--text-main);" onclick="closeModal('customModal')">ยกเลิก</button>
+                <button class="btn-modal" style="background: var(--primary); color: white;" onclick="confirmAddCustom()">บันทึกรายการ</button>
+            </div>
+        </div>
+    </div>
+<div class="modal-overlay" id="historyModal">
         <div class="modal-content">
             <h2 style="margin-bottom: 15px; text-align: center; color: var(--dark); font-size: 20px;">📜 ประวัติ / สรุปยอด</h2>
             <div style="background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; justify-content: space-between; border: 1px solid var(--border);">
@@ -643,6 +802,42 @@
         }
         
         init();
+    
+        function openCustomModal() {
+            document.getElementById('customName').value = '';
+            document.getElementById('customPrice').value = '';
+            document.getElementById('customWeight').value = '';
+            setActiveInput('customPrice'); 
+            document.getElementById('customModal').style.display = 'flex';
+        }
+
+        function confirmAddCustom() {
+            let name = document.getElementById('customName').value.trim();
+            if (!name) name = 'รายการอื่นๆ';
+
+            let priceExpr = document.getElementById('customPrice').value.trim();
+            let price = evaluateExpression(priceExpr);
+            if (price <= 0) return alert('กรุณาระบุราคาให้ถูกต้อง (มากกว่า 0)');
+
+            let weightExpr = document.getElementById('customWeight').value.trim();
+            let weight = evaluateExpression(weightExpr);
+            if (weight === 0) return alert('กรุณาระบุจำนวนหรือน้ำหนักให้ถูกต้อง');
+
+            cart.push({
+                id: Date.now() + Math.random(),
+                productId: 'custom-' + Date.now(),
+                name: name,
+                category: "อื่นๆ",
+                price: price,
+                weight: weight,
+                weightString: weightExpr,
+                total: price * weight
+            });
+
+            closeModal('customModal');
+            updateCartUI();
+        }
+
     </script>
 </body>
 </html>
